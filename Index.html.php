@@ -1,0 +1,818 @@
+<?php
+/*
+ * Template Name: Pulpa Sensual — Landing Page
+ *
+ * INSTRUCCIONES:
+ * 1. Sube este archivo a: /wp-content/themes/TU-TEMA/page-landing.php
+ * 2. Sube las 3 imágenes a WordPress (Medios → Añadir nuevo):
+ *      portada.jpg, autor.jpg, sello.png
+ * 3. Copia la URL de cada imagen y reemplázala abajo en $img
+ * 4. En WordPress, crea una nueva Página y en "Atributos de página"
+ *    selecciona la plantilla "Pulpa Sensual — Landing Page"
+ */
+
+// ── REEMPLAZA ESTAS 3 URLS CON LAS DE TU BIBLIOTECA DE MEDIOS ──────────────
+$img = [
+  'portada' => 'https://TU-SITIO.com/wp-content/uploads/portada.jpg',
+  'autor'   => 'https://TU-SITIO.com/wp-content/uploads/autor.jpg',
+  'sello'   => 'https://TU-SITIO.com/wp-content/uploads/sello.png',
+];
+// ───────────────────────────────────────────────────────────────────────────
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos R. Buker — Pulpa Sensual</title>
+<?php wp_head(); ?>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --rojo: #c41e3a;
+  --rojo-oscuro: #8b0000;
+  --oro: #c9a84c;
+  --crema: #f5f0e8;
+  --negro: #0a0a0a;
+  --gris-oscuro: #1a1a1a;
+  --gris: #2d2d2d;
+  --blanco: #ffffff;
+  --texto: #e8e0d0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--negro) !important;
+  color: var(--texto);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ocultar header/footer del tema */
+#wpadminbar { display: none !important; }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  transition: background 0.3s ease, padding 0.3s ease;
+}
+
+nav.scrolled {
+  background: rgba(10,10,10,0.97);
+  padding: 16px 60px;
+  border-bottom: 1px solid rgba(196,30,58,0.15);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blanco);
+  letter-spacing: 0.05em;
+}
+
+.nav-logo span { color: var(--rojo); font-style: italic; }
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(232,224,208,0.6);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--rojo); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 50%, rgba(196,30,58,0.12) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-left::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 10%; bottom: 10%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--rojo), transparent);
+}
+
+.portada-container {
+  position: relative;
+  animation: floatBook 6s ease-in-out infinite;
+}
+
+@keyframes floatBook {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-15px) rotate(-2deg); }
+}
+
+.portada-img {
+  width: 260px;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: -8px 12px 40px rgba(0,0,0,0.8), 4px 4px 0 rgba(196,30,58,0.3), 0 0 60px rgba(196,30,58,0.15);
+  display: block;
+}
+
+.portada-spine {
+  position: absolute;
+  left: -18px; top: 0; bottom: 0;
+  width: 18px;
+  background: linear-gradient(to right, #1a0a0a, #3a1515);
+  border-radius: 4px 0 0 4px;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.6);
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px 80px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  margin-bottom: 24px;
+  animation: fadeSlideUp 0.8s ease both;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: var(--blanco);
+  animation: fadeSlideUp 0.8s 0.15s ease both;
+}
+
+.hero-title span {
+  display: block;
+  font-style: italic;
+  color: var(--rojo);
+  font-weight: 400;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.hero-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.8);
+  margin-top: 20px;
+  margin-bottom: 40px;
+  animation: fadeSlideUp 0.8s 0.3s ease both;
+}
+
+.hero-desc {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(232,224,208,0.8);
+  max-width: 420px;
+  margin-bottom: 48px;
+  animation: fadeSlideUp 0.8s 0.45s ease both;
+  font-weight: 300;
+}
+
+.hero-desc em { color: var(--crema); font-style: italic; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 16px 40px;
+  background: transparent;
+  border: 1px solid var(--rojo);
+  color: var(--blanco);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.4s ease;
+  animation: fadeSlideUp 0.8s 0.6s ease both;
+  width: fit-content;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--rojo);
+  transform: translateX(-101%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.btn-primary:hover::before { transform: translateX(0); }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SINOPSIS */
+.sinopsis {
+  background: var(--gris-oscuro);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sinopsis::before {
+  content: '\201C';
+  position: absolute;
+  top: -60px; left: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 30rem;
+  color: rgba(196,30,58,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+.sinopsis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--blanco);
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+
+.section-title em { font-style: italic; color: var(--rojo); }
+
+.sinopsis-text p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: rgba(232,224,208,0.85);
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+
+.sinopsis-text p:first-of-type::first-letter {
+  font-size: 4em;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  color: var(--rojo);
+  float: left;
+  line-height: 0.75;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+.features-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 1rem;
+  color: rgba(232,224,208,0.75);
+  font-weight: 300;
+}
+
+.features-list li::before {
+  content: '\25C6';
+  color: var(--rojo);
+  font-size: 0.6rem;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.sinopsis-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sinopsis-portada {
+  width: 220px;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(196,30,58,0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.sinopsis-deco {
+  position: absolute;
+  width: 260px; height: 340px;
+  border: 1px solid rgba(196,30,58,0.2);
+  border-radius: 8px;
+  transform: rotate(4deg);
+}
+
+/* AUTOR */
+.autor {
+  background: var(--negro);
+  padding: 100px 0;
+}
+
+.autor-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.autor-photo-wrap { position: relative; }
+
+.autor-photo {
+  width: 100%;
+  border-radius: 2px;
+  filter: grayscale(20%);
+  display: block;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.autor-photo-frame {
+  position: absolute;
+  inset: 16px -16px -16px 16px;
+  border: 1px solid rgba(196,30,58,0.3);
+  border-radius: 2px;
+  z-index: -1;
+}
+
+.autor-nombre {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--blanco);
+  margin-bottom: 8px;
+}
+
+.autor-origen {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--oro);
+  margin-bottom: 32px;
+}
+
+.autor-bio p {
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: rgba(232,224,208,0.8);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.autor-cita {
+  border-left: 2px solid var(--rojo);
+  padding: 20px 28px;
+  margin: 32px 0;
+  background: rgba(196,30,58,0.05);
+}
+
+.autor-cita p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--crema);
+  line-height: 1.6;
+  margin: 0 !important;
+}
+
+/* VIDEO */
+.video-section {
+  background: var(--gris-oscuro);
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(196,30,58,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 40px auto 0;
+  aspect-ratio: 1 / 1;
+  background: var(--negro);
+  border: 1px solid rgba(196,30,58,0.25);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(196,30,58,0.08);
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.video-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--negro);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.video-placeholder:hover { background: #111; }
+
+.video-play-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--rojo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-placeholder:hover .video-play-icon {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(196,30,58,0.4);
+}
+
+.video-play-icon svg { fill: var(--rojo); width: 28px; height: 28px; margin-left: 4px; }
+
+.video-placeholder-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(232,224,208,0.4);
+}
+
+.video-input-wrap {
+  max-width: 540px;
+  margin: 0 auto 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.video-input {
+  flex: 1;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(196,30,58,0.3);
+  color: var(--texto);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.video-input::placeholder { color: rgba(232,224,208,0.25); }
+.video-input:focus { border-color: var(--rojo); }
+
+.video-btn {
+  padding: 14px 24px;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.video-btn:hover { background: var(--rojo-oscuro); }
+
+.video-note {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: rgba(232,224,208,0.25);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+/* CTA */
+.cta-section {
+  background: linear-gradient(135deg, var(--rojo-oscuro) 0%, #3a0a15 50%, var(--negro) 100%);
+  padding: 120px 0;
+  text-align: center;
+}
+
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  color: var(--blanco);
+  margin-bottom: 20px;
+}
+
+.cta-title em { font-style: italic; color: rgba(255,255,255,0.7); }
+
+.cta-sub {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.btn-cta {
+  display: inline-block;
+  padding: 20px 60px;
+  background: var(--blanco);
+  color: var(--rojo-oscuro);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-cta:hover {
+  background: var(--negro);
+  color: var(--blanco);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+/* FOOTER */
+footer {
+  background: var(--negro);
+  border-top: 1px solid rgba(196,30,58,0.2);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-sello {
+  width: 60px; height: 60px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+  opacity: 0.7;
+  display: block;
+}
+
+footer p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(232,224,208,0.3);
+  text-transform: uppercase;
+}
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 100px 40px 40px; }
+  .hero-right { padding: 40px 40px 80px; }
+  .hero-left::after { display: none; }
+  .sinopsis-grid, .autor-grid { grid-template-columns: 1fr; gap: 48px; }
+  .sinopsis-right { display: none; }
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 20px; }
+  .container { padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-logo">Carlos R. <span>Buker</span></div>
+  <ul class="nav-links">
+    <li><a href="#libro">El libro</a></li>
+    <li><a href="#autor">El autor</a></li>
+    <li><a href="#video">Video</a></li>
+    <li><a href="#adquirir">Adquirir</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-left">
+    <div class="portada-container">
+      <div class="portada-spine"></div>
+      <img src="<?php echo esc_url($img['portada']); ?>" alt="Portada Pulpa Sensual" class="portada-img" loading="eager" width="400" height="640">
+    </div>
+  </div>
+  <div class="hero-right">
+    <span class="hero-eyebrow">Nueva obra &mdash; 2025</span>
+    <h1 class="hero-title">PULPA<span>sensual</span></h1>
+    <p class="hero-subtitle">Relatos er&oacute;ticos &middot; Carlos R. Buker</p>
+    <p class="hero-desc">Historias donde una mirada, una conversaci&oacute;n o un gesto pueden abrir la puerta a <em>experiencias que transforman</em> a quienes las viven.</p>
+    <a href="#adquirir" class="btn-primary">Obtener el libro</a>
+  </div>
+</section>
+
+<!-- SINOPSIS -->
+<section class="sinopsis" id="libro">
+  <div class="container">
+    <div class="sinopsis-grid">
+      <div class="sinopsis-text reveal">
+        <span class="section-label">Presentaci&oacute;n</span>
+        <h2 class="section-title">Deseo, tensi&oacute;n y<br>encuentros que <em>dejan huella</em></h2>
+        <p>Pulpa sensual es una colecci&oacute;n de relatos er&oacute;ticos donde el deseo aparece en su forma m&aacute;s intensa: inesperado, provocador y profundamente humano. En estas historias, una mirada, una conversaci&oacute;n o un gesto aparentemente trivial pueden abrir la puerta a experiencias que transforman a quienes las viven.</p>
+        <p>Carlos R. Buker construye escenas cargadas de atm&oacute;sfera y personajes que se mueven entre la curiosidad, la fantas&iacute;a y la atracci&oacute;n. Cada relato explora ese instante en que la intimidad se vuelve inevitable y los l&iacute;mites comienzan a difuminarse.</p>
+        <p>Escritos con una prosa cuidada y de alta calidad literaria, estos relatos combinan erotismo, tensi&oacute;n psicol&oacute;gica y una sensibilidad narrativa que privilegia la sugerencia, la emoci&oacute;n y la intensidad de los encuentros.</p>
+        <ul class="features-list">
+          <li>Relatos er&oacute;ticos intensos y sugerentes</li>
+          <li>Personajes que exploran el deseo y sus consecuencias</li>
+          <li>Historias breves con atm&oacute;sferas envolventes</li>
+          <li>Una escritura directa, elegante y de alta calidad literaria</li>
+        </ul>
+        <p style="margin-top:32px; font-style:italic; color:rgba(232,224,208,0.7);">Pulpa sensual es una lectura para adultos que buscan algo m&aacute;s que erotismo superficial: historias donde el deseo, la imaginaci&oacute;n y la psicolog&iacute;a de los personajes se entrelazan para crear experiencias memorables.</p>
+      </div>
+      <div class="sinopsis-right reveal">
+        <div class="sinopsis-deco"></div>
+        <img src="<?php echo esc_url($img['portada']); ?>" alt="Pulpa Sensual" class="sinopsis-portada" loading="lazy" width="220" height="352">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOR -->
+<section class="autor" id="autor">
+  <div class="container">
+    <div class="autor-grid">
+      <div class="autor-photo-wrap reveal">
+        <img src="<?php echo esc_url($img['autor']); ?>" alt="Carlos R. Buker" class="autor-photo" loading="lazy" width="300" height="375">
+        <div class="autor-photo-frame"></div>
+      </div>
+      <div class="autor-info reveal">
+        <span class="section-label">Rese&ntilde;a Biogr&aacute;fica</span>
+        <h2 class="autor-nombre">Carlos R. Buker</h2>
+        <p class="autor-origen">Per&uacute; &middot; Narrador &middot; 1968</p>
+        <div class="autor-bio">
+          <p>Carlos R. Buker (Per&uacute;, 1968) es un narrador peruano que explora en su obra las zonas m&aacute;s &iacute;ntimas del deseo, la memoria y las relaciones humanas. Su escritura se caracteriza por una prosa directa y sensorial, donde lo er&oacute;tico se entrelaza con la psicolog&iacute;a de los personajes y la atm&oacute;sfera de los espacios que habitan.</p>
+          <div class="autor-cita">
+            <p>&laquo;Sus historias buscan m&aacute;s sugerir que exhibir, privilegiando la tensi&oacute;n emocional y la carga simb&oacute;lica de los gestos cotidianos.&raquo;</p>
+          </div>
+          <p>Tras muchos a&ntilde;os dedicado a la lectura y a la observaci&oacute;n de las complejidades del v&iacute;nculo entre hombres y mujeres, Buker comenz&oacute; a publicar relatos centrados en la intensidad de los encuentros, los silencios y las tensiones que preceden al deseo.</p>
+          <p><em>Pulpa sensual</em> re&uacute;ne algunos de sus relatos m&aacute;s intensos, donde el erotismo aparece como una fuerza vital que revela las contradicciones, fantas&iacute;as y vulnerabilidades de quienes lo experimentan.</p>
+          <p>Carlos R. Buker vive en Per&uacute; y contin&uacute;a escribiendo narrativa breve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="video-section" id="video">
+  <div class="container">
+    <span class="section-label" style="display:block;text-align:center;">El autor habla</span>
+    <h2 class="section-title" style="text-align:center;">Conoce a Carlos R. <em>Buker</em></h2>
+    <div class="video-input-wrap reveal">
+      <input type="text" class="video-input" id="video-url-input" placeholder="Pega aqu&iacute; el enlace de YouTube o Vimeo...">
+      <button class="video-btn" onclick="loadVideo()">Cargar</button>
+    </div>
+    <div class="video-wrapper reveal" id="video-container">
+      <div class="video-placeholder" id="video-placeholder" onclick="document.getElementById('video-url-input').focus()">
+        <div class="video-play-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <span class="video-placeholder-label">Introduce el enlace del video arriba</span>
+      </div>
+    </div>
+    <p class="video-note reveal">Compatible con YouTube &middot; Vimeo &middot; y otros servicios de video</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="adquirir">
+  <div class="container">
+    <h2 class="cta-title">Una lectura para <em>adultos</em> que<br>buscan algo m&aacute;s</h2>
+    <p class="cta-sub">Erotismo, tensi&oacute;n psicol&oacute;gica y una sensibilidad narrativa que privilegia la emoci&oacute;n sobre la exhibici&oacute;n.</p>
+    <a href="#" class="btn-cta">Adquirir ahora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="<?php echo esc_url($img['sello']); ?>" alt="Sello editorial" class="footer-sello" loading="lazy" width="60" height="60">
+  <p>&copy; 2025 Carlos R. Buker &middot; Todos los derechos reservados</p>
+</footer>
+
+<script>
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+function loadVideo() {
+  const input = document.getElementById('video-url-input').value.trim();
+  const container = document.getElementById('video-container');
+  if (!input) return;
+  let embedUrl = '';
+  const ytMatch = input.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
+  const vmMatch = input.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vmMatch) embedUrl = `https://player.vimeo.com/video/${vmMatch[1]}?autoplay=1`;
+  if (embedUrl) {
+    container.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  } else if (input.startsWith('http')) {
+    container.innerHTML = `<iframe src="${input}" allowfullscreen></iframe>`;
+  } else {
+    const inp = document.getElementById('video-url-input');
+    inp.style.borderColor = '#c41e3a';
+    setTimeout(() => inp.style.borderColor = '', 1200);
+  }
+}
+</script>
+<?php wp_footer(); ?>
+</body>
+</html>
