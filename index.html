@@ -121,24 +121,17 @@ nav.scrolled {
 }
 
 @keyframes floatBook {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-15px) rotate(-2deg); }
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-12px) rotate(-1deg); }
 }
 
 .portada-img {
-  width: 260px;
-  border-radius: 4px 12px 12px 4px;
-  box-shadow: -8px 12px 40px rgba(0,0,0,0.8), 4px 4px 0 rgba(196,30,58,0.3), 0 0 60px rgba(196,30,58,0.15);
+  width: 420px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 60px rgba(196,30,58,0.2);
   display: block;
-}
-
-.portada-spine {
-  position: absolute;
-  left: -18px; top: 0; bottom: 0;
-  width: 18px;
-  background: linear-gradient(to right, #1a0a0a, #3a1515);
-  border-radius: 4px 0 0 4px;
-  box-shadow: -4px 0 12px rgba(0,0,0,0.6);
 }
 
 .hero-right {
@@ -671,8 +664,7 @@ footer p {
 <section class="hero" id="inicio">
   <div class="hero-left">
     <div class="portada-container">
-      <div class="portada-spine"></div>
-      <img src="portada.jpg" alt="Portada Pulpa Sensual" class="portada-img" loading="eager" width="400" height="640">
+      <img src="foto_libro.jpg" alt="Pulpa Sensual — Carlos R. Buker" class="portada-img" loading="eager" width="400" height="400">
     </div>
   </div>
   <div class="hero-right">
