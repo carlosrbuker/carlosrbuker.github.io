@@ -27,6 +27,7 @@ body {
   color: var(--texto);
   font-family: 'Cormorant Garamond', serif;
   overflow-x: hidden;
+  max-width: 100%;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -635,16 +636,36 @@ footer p {
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
+  html, body { overflow-x: hidden; max-width: 100%; }
+
   .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-left { padding: 100px 40px 40px; }
-  .hero-right { padding: 40px 40px 80px; }
+  .hero-left { padding: 100px 24px 40px; justify-content: center; }
+  .hero-right { padding: 24px 24px 80px; }
   .hero-left::after { display: none; }
-  .sinopsis-grid, .autor-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero-title { font-size: clamp(2.8rem, 12vw, 4rem); }
+  .hero-desc { max-width: 100%; }
+
+  .portada-img { width: 85vw; height: 85vw; max-width: 360px; max-height: 360px; }
+
+  .sinopsis-grid, .autor-grid { grid-template-columns: 1fr; gap: 40px; }
   .sinopsis-right { display: none; }
-  nav { padding: 16px 24px; }
-  .nav-links { gap: 20px; }
-  .container { padding: 0 24px; }
-  .video-wrapper { width: 100%; height: auto; aspect-ratio: 1 / 1; }
+  .features-list { grid-template-columns: 1fr; }
+
+  .autor-grid { grid-template-columns: 1fr; }
+  .autor-photo-wrap { max-width: 260px; margin: 0 auto; }
+
+  nav { padding: 14px 20px; }
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 0.6rem; letter-spacing: 0.15em; }
+
+  .container { padding: 0 20px; }
+  .section-title { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+
+  .video-wrapper { width: 90vw; height: 90vw; max-width: 540px; max-height: 540px; }
+
+  .cta-section { padding: 80px 20px; }
+  .cta-title { font-size: clamp(1.8rem, 8vw, 3rem); }
+  .btn-cta { padding: 16px 36px; }
 }
 </style>
 </head>
@@ -656,7 +677,7 @@ footer p {
     <li><a href="#libro">Libro</a></li>
     <li><a href="#autor">Autor</a></li>
     <li><a href="#video">Video</a></li>
-    <li><a href="#adquirir">Comprar</a></li>
+    <li><a href="#adquirir">Adquirir</a></li>
   </ul>
 </nav>
 
