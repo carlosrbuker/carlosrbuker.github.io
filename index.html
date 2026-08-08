@@ -235,7 +235,7 @@ nav.scrolled {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* SINOPSIS */
+/* SINOPSIS (Libro I, destacado) */
 .sinopsis {
   background: var(--gris-oscuro);
   padding: 100px 0;
@@ -349,6 +349,262 @@ nav.scrolled {
   border: 1px solid rgba(196,30,58,0.2);
   border-radius: 8px;
   transform: rotate(4deg);
+}
+
+/* ===================== COLECCIÓN — CARRUSEL (4 libros) ===================== */
+.coleccion {
+  background: var(--negro);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.coleccion::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(196,30,58,0.07) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.coleccion-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 56px;
+  position: relative;
+  z-index: 2;
+}
+
+.coleccion-header .section-label { text-align: center; }
+.coleccion-header .section-title { text-align: center; }
+
+/* --- Carrusel: pista con scroll-snap nativo (funciona a dedo en móvil) --- */
+.carrusel {
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.carrusel-track {
+  display: flex;
+  gap: 36px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 20px 40px 44px;
+  perspective: 1600px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+Esto hace que:
+
+El carrusel use el ancho completo del viewport (100vw)
+Se centra correctamente sin afectar otros elementos
+Las 4 tarjetas se vean completas y sin cortes
+Agrega padding lateral (40px) para que no toque los bordes
+
+¿Se ve mejor ahora?
+
+.carrusel-track::-webkit-scrollbar { display: none; }
+
+.libro-card {
+  flex: 0 0 auto;
+  width: min(280px, 74vw);
+  scroll-snap-align: center;
+  background: var(--gris-oscuro);
+  border: 1px solid rgba(196,30,58,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.5s ease,
+              box-shadow 0.5s ease;
+  will-change: transform;
+}
+
+/* Estado "en foco" que aplica el IntersectionObserver: la tarjeta centrada
+   se eleva y gana brillo, dando una sensación de profundidad de carrusel
+   sin necesidad de librerías externas. */
+.libro-card.en-foco {
+  transform: translateY(-10px) scale(1.03);
+  border-color: rgba(196,30,58,0.55);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 40px rgba(196,30,58,0.12);
+}
+
+.libro-card:not(.en-foco) {
+  opacity: 0.62;
+  filter: saturate(0.75);
+}
+
+.libro-card:hover {
+  transform: translateY(-14px) scale(1.05) rotateY(var(--tilt, 0deg));
+  border-color: rgba(196,30,58,0.6);
+  box-shadow: 0 34px 80px rgba(0,0,0,0.65), 0 0 46px rgba(196,30,58,0.18);
+  opacity: 1;
+  filter: none;
+}
+
+.libro-card-cover {
+  position: relative;
+  aspect-ratio: 3 / 4.6;
+  background: linear-gradient(160deg, #1f1f1f, #0a0a0a);
+  overflow: hidden;
+}
+
+.libro-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.libro-card:hover .libro-card-cover img { transform: scale(1.06); }
+
+.libro-card-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(10,10,10,0.9) 100%);
+  pointer-events: none;
+}
+
+.libro-card-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 2;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--oro);
+  background: rgba(10,10,10,0.75);
+  border: 1px solid rgba(201,168,76,0.4);
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+
+.libro-card-body {
+  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.libro-card-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--blanco);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.libro-card-eje {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  margin-bottom: 14px;
+}
+
+.libro-card-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(232,224,208,0.75);
+  font-weight: 300;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.libro-card-cta {
+  display: inline-block;
+  text-align: center;
+  padding: 12px 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.libro-card-cta.disponible {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.libro-card-cta.disponible:hover { background: var(--rojo-oscuro); }
+
+.libro-card-cta.proximamente {
+  background: transparent;
+  border: 1px solid rgba(232,224,208,0.2);
+  color: rgba(232,224,208,0.4);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* --- Controles del carrusel: flechas + puntos --- */
+.carrusel-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.carrusel-flecha {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(196,30,58,0.4);
+  color: var(--crema);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.carrusel-flecha:hover {
+  background: rgba(196,30,58,0.15);
+  border-color: var(--rojo);
+  transform: scale(1.08);
+}
+
+.carrusel-flecha svg { width: 18px; height: 18px; }
+
+.carrusel-puntos {
+  display: flex;
+  gap: 10px;
+}
+
+.carrusel-punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(232,224,208,0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.35s ease, transform 0.35s ease, width 0.35s ease;
+}
+
+.carrusel-punto.activo {
+  background: var(--rojo);
+  width: 26px;
+  border-radius: 999px;
 }
 
 /* AUTOR */
@@ -635,6 +891,10 @@ footer p {
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* RESPONSIVE */
+@media (max-width: 1100px) {
+  .coleccion-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 900px) {
   html, body { overflow-x: hidden; max-width: 100%; }
 
@@ -653,6 +913,8 @@ footer p {
 
   .autor-grid { grid-template-columns: 1fr; }
   .autor-photo-wrap { max-width: 260px; margin: 0 auto; }
+
+  .coleccion-grid { grid-template-columns: 1fr; }
 
   nav { padding: 14px 20px; }
   .nav-links { gap: 14px; }
@@ -674,14 +936,14 @@ footer p {
 <nav id="main-nav">
   <div class="nav-logo">Carlos R. <span>Buker</span></div>
   <ul class="nav-links">
-    <li><a href="#libro">Libro</a></li>
+    <li><a href="#libro">Colección</a></li>
     <li><a href="#autor">Autor</a></li>
     <li><a href="#video">Video</a></li>
     <li><a href="#adquirir">Adquirir</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (Libro I, portada de la colección) -->
 <section class="hero" id="inicio">
   <div class="hero-left">
     <div class="portada-container">
@@ -689,7 +951,7 @@ footer p {
     </div>
   </div>
   <div class="hero-right">
-    <span class="hero-eyebrow">Nueva obra &mdash; 2025</span>
+    <span class="hero-eyebrow">Volumen I &middot; 2025</span>
     <h1 class="hero-title">PULPA<span>sensual</span></h1>
     <p class="hero-subtitle">Relatos er&oacute;ticos &middot; Carlos R. Buker</p>
     <p class="hero-desc">Historias donde una mirada, una conversaci&oacute;n o un gesto pueden abrir la puerta a <em>experiencias que transforman</em> a quienes las viven.</p>
@@ -697,12 +959,12 @@ footer p {
   </div>
 </section>
 
-<!-- SINOPSIS -->
-<section class="sinopsis" id="libro">
+<!-- SINOPSIS: presentación ampliada del Libro I -->
+<section class="sinopsis">
   <div class="container">
     <div class="sinopsis-grid">
       <div class="sinopsis-text reveal">
-        <span class="section-label">Presentaci&oacute;n</span>
+        <span class="section-label">Volumen I &middot; Presentaci&oacute;n</span>
         <h2 class="section-title">Deseo, tensi&oacute;n y<br>encuentros que <em>dejan huella</em></h2>
         <p>Pulpa sensual es una colecci&oacute;n de relatos er&oacute;ticos donde el deseo aparece en su forma m&aacute;s intensa: inesperado, provocador y profundamente humano. En estas historias, una mirada, una conversaci&oacute;n o un gesto aparentemente trivial pueden abrir la puerta a experiencias que transforman a quienes las viven.</p>
         <p>Carlos R. Buker construye escenas cargadas de atm&oacute;sfera y personajes que se mueven entre la curiosidad, la fantas&iacute;a y la atracci&oacute;n. Cada relato explora ese instante en que la intimidad se vuelve inevitable y los l&iacute;mites comienzan a difuminarse.</p>
@@ -718,6 +980,106 @@ footer p {
       <div class="sinopsis-right reveal">
         <div class="sinopsis-deco"></div>
         <img src="portada.jpg" alt="Pulpa Sensual" class="sinopsis-portada" loading="lazy" width="220" height="352">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+  ============================================================
+  COLECCIÓN COMPLETA — carrusel de 4 libros, orden real de publicación
+  (Libro 1, 2, 3, 4 tal como aparece impreso en cada portada)
+
+  TODO antes de publicar, por cada libro sin enlace real:
+    1. Subir el archivo de portada al repo (mismo nivel que portada.jpg)
+       usando exactamente estos nombres: Portada_1_Esp.jpg,
+       Portada_2_Esp.jpg, COver.jpg, Cover.jpg — o renómbralos y
+       actualiza el src de cada <img> por igual.
+    2. Cambiar href="#" por el link real de Amazon (u otra tienda).
+    3. Quitar la clase "proximamente" y poner "disponible" en el <a>
+       una vez el libro esté publicado y el link sea real.
+  ============================================================
+-->
+<section class="coleccion" id="libro">
+  <div class="container">
+    <div class="coleccion-header reveal">
+      <span class="section-label">La colecci&oacute;n</span>
+      <h2 class="section-title">Cuatro libros,<br>un mismo <em>territorio del deseo</em></h2>
+    </div>
+
+    <div class="carrusel reveal">
+      <div class="carrusel-track" id="carrusel-track">
+
+        <!-- Libro 1 -->
+        <article class="libro-card" data-index="0">
+          <div class="libro-card-cover">
+            <img src="Portada_1_Esp.jpg" alt="Portada Pulpa Sensual — Libro 1" loading="lazy">
+          </div>
+          <div class="libro-card-body">
+            <h3 class="libro-card-titulo">Pulpa Sensual — Libro 1</h3>
+            <p class="libro-card-eje">El descubrimiento del deseo</p>
+            <p class="libro-card-desc">El umbral de la serie. Relatos donde el deseo aparece por primera vez, sin culpa ni c&aacute;lculo: una mirada que dura un segundo de m&aacute;s, una puerta entornada, el instante en que dos personas obedecen al cuerpo antes que a lo correcto.</p>
+            <a href="https://www.amazon.com/dp/B0GS27XC6S" target="_blank" class="libro-card-cta disponible">Ver en Amazon</a>
+          </div>
+        </article>
+
+        <!-- Libro 2 -->
+        <article class="libro-card" data-index="1">
+          <div class="libro-card-cover">
+            <span class="libro-card-badge">Pr&oacute;ximamente</span>
+            <img src="Portada_2_Esp.jpg" alt="Portada Pulpa Sensual — Libro 2" loading="lazy">
+          </div>
+          <div class="libro-card-body">
+            <h3 class="libro-card-titulo">Pulpa Sensual — Libro 2</h3>
+            <p class="libro-card-eje">El deseo que a&uacute;n no se atreve</p>
+            <p class="libro-card-desc">Personajes t&iacute;midos y observadores a quienes la vida &mdash;un carnaval, un cuarto compartido por azar, una puerta entreabierta a media noche&mdash; obliga finalmente a actuar.</p>
+            <a href="#" class="libro-card-cta proximamente">Pr&oacute;ximamente</a>
+          </div>
+        </article>
+
+        <!-- Libro 3 -->
+        <article class="libro-card" data-index="2">
+          <div class="libro-card-cover">
+            <span class="libro-card-badge">Pr&oacute;ximamente</span>
+            <img src="Portada_3_Esp.jpg" alt="Portada Pulpa Sensual — Libro 3" loading="lazy">
+          </div>
+          <div class="libro-card-body">
+            <h3 class="libro-card-titulo">Pulpa Sensual — Libro 3</h3>
+            <p class="libro-card-eje">El deseo convertido en memoria</p>
+            <p class="libro-card-desc">Relatos narrados por quienes ya sobrevivieron a sus propios encuentros y entienden, con los a&ntilde;os, que lo importante nunca fue el cuerpo sino lo que esas personas dejaron dentro de ellos.</p>
+            <a href="#" class="libro-card-cta proximamente">Pr&oacute;ximamente</a>
+          </div>
+        </article>
+
+        <!-- Libro 4 -->
+        <article class="libro-card" data-index="3">
+          <div class="libro-card-cover">
+            <span class="libro-card-badge">Pr&oacute;ximamente</span>
+            <img src="Portada_4_Esp.jpg" alt="Portada Pulpa Sensual — Libro 4" loading="lazy">
+          </div>
+          <div class="libro-card-body">
+            <h3 class="libro-card-titulo">Pulpa Sensual — Libro 4</h3>
+            <p class="libro-card-eje">El deseo como intrusi&oacute;n</p>
+            <p class="libro-card-desc">Los personajes ya tienen vidas construidas &mdash;promesas, culpas heredadas, decisiones que no se pueden deshacer sin romper algo&mdash; cuando el deseo llega, tarde y sin permiso. La entrega m&aacute;s moralmente compleja de la serie.</p>
+            <a href="#" class="libro-card-cta proximamente">Pr&oacute;ximamente</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="carrusel-controles">
+        <button type="button" class="carrusel-flecha" id="carrusel-prev" aria-label="Libro anterior">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="carrusel-puntos" id="carrusel-puntos">
+          <button type="button" class="carrusel-punto activo" data-goto="0" aria-label="Ir al Libro 1"></button>
+          <button type="button" class="carrusel-punto" data-goto="1" aria-label="Ir al Libro 2"></button>
+          <button type="button" class="carrusel-punto" data-goto="2" aria-label="Ir al Libro 3"></button>
+          <button type="button" class="carrusel-punto" data-goto="3" aria-label="Ir al Libro 4"></button>
+        </div>
+        <button type="button" class="carrusel-flecha" id="carrusel-next" aria-label="Siguiente libro">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </div>
   </div>
@@ -741,7 +1103,7 @@ footer p {
             <p>&laquo;Sus historias buscan m&aacute;s sugerir que exhibir, privilegiando la tensi&oacute;n emocional y la carga simb&oacute;lica de los gestos cotidianos.&raquo;</p>
           </div>
           <p>Tras muchos a&ntilde;os dedicado a la lectura y a la observaci&oacute;n de las complejidades del v&iacute;nculo entre hombres y mujeres, Buker comenz&oacute; a publicar relatos centrados en la intensidad de los encuentros, los silencios y las tensiones que preceden al deseo.</p>
-          <p><em>Pulpa sensual</em> re&uacute;ne algunos de sus relatos m&aacute;s intensos, donde el erotismo aparece como una fuerza vital que revela las contradicciones, fantas&iacute;as y vulnerabilidades de quienes lo experimentan.</p>
+          <p><em>Pulpa sensual</em> es el primer volumen de una serie de cuatro, donde el erotismo aparece como una fuerza vital que revela las contradicciones, fantas&iacute;as y vulnerabilidades de quienes lo experimentan.</p>
           <p>Carlos R. Buker vive en Per&uacute; y contin&uacute;a escribiendo narrativa breve.</p>
         </div>
       </div>
@@ -785,7 +1147,7 @@ footer p {
 <section class="cta-section" id="adquirir">
   <div class="container">
     <h2 class="cta-title">Una lectura para <em>adultos</em> que<br>buscan algo m&aacute;s</h2>
-    <p class="cta-sub">Erotismo, tensi&oacute;n psicol&oacute;gica y una sensibilidad narrativa que privilegia la emoci&oacute;n sobre la exhibici&oacute;n.</p>
+    <p class="cta-sub">Erotismo, tensi&oacute;n psicol&oacute;gica y una sensibilidad narrativa que privilegia la emoci&oacute;n sobre la exhibici&oacute;n. Comienza por el Volumen I.</p>
     <a href="https://www.amazon.com/dp/B0GS27XC6S" target="_blank" class="btn-cta">Adquirir ahora</a>
   </div>
 </section>
@@ -821,6 +1183,68 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 reveals.forEach(r => observer.observe(r));
+
+/* ===================== CARRUSEL DE LA COLECCIÓN ===================== */
+(function initCarrusel() {
+  const track = document.getElementById('carrusel-track');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.libro-card'));
+  const dots = Array.from(document.querySelectorAll('.carrusel-punto'));
+  const btnPrev = document.getElementById('carrusel-prev');
+  const btnNext = document.getElementById('carrusel-next');
+
+  const scrollToIndex = (index) => {
+    const clamped = Math.max(0, Math.min(index, cards.length - 1));
+    cards[clamped].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  };
+
+  // Flechas: avanzan/retroceden una tarjeta respecto a la que está en foco.
+  const currentIndex = () => cards.findIndex((c) => c.classList.contains('en-foco'));
+
+  btnPrev.addEventListener('click', () => scrollToIndex(Math.max(currentIndex() - 1, 0)));
+  btnNext.addEventListener('click', () => scrollToIndex(Math.min(currentIndex() + 1, cards.length - 1)));
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => scrollToIndex(Number(dot.dataset.goto)));
+  });
+
+  // Detecta qué tarjeta está centrada en la pista y la marca "en-foco",
+  // sincronizando además el punto activo — sin librerías externas.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const card = entry.target;
+        const idx = Number(card.dataset.index);
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+          card.classList.add('en-foco');
+          dots.forEach((d) => d.classList.toggle('activo', Number(d.dataset.goto) === idx));
+        } else {
+          card.classList.remove('en-foco');
+        }
+      });
+    },
+    { root: track, threshold: [0, 0.6, 1] }
+  );
+
+  cards.forEach((card) => observer.observe(card));
+
+  // Efecto de inclinación 3D sutil (tilt) al pasar el mouse, sólo en
+  // dispositivos con puntero fino (evita interferir con el touch/scroll
+  // en móvil, donde no hay hover real).
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const offsetX = (e.clientX - rect.left) / rect.width - 0.5;
+        card.style.setProperty('--tilt', `${offsetX * -6}deg`);
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--tilt', '0deg');
+      });
+    });
+  }
+})();
 
 function loadVideo() {
   const input = document.getElementById('video-url-input').value.trim();
